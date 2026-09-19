@@ -1,0 +1,485 @@
+/* ============================================================
+ * Beaver SqlWizard — inspector.js
+ * Editor de drafts no painel direito
+ * ============================================================ */
+
+window.SqlWizardInspector = (function (window, document) {
+    'use strict';
+
+    var TYPES = [
+        { value: 'id', label: 'id (PK auto)', hasLength: false },
+        { value: 'str', label: 'str (varchar)', hasLength: true },
+        { value: 'text', label: 'text', hasLength: false },
+        { value: 'int', label: 'int', hasLength: false },
+        { value: 'dec', label: 'dec (decimal)', hasLength: true },
+        { value: 'float', label: 'float', hasLength: false },
+        { value: 'bool', label: 'bool', hasLength: false },
+        { value: 'date', label: 'date', hasLength: false },
+        { value: 'time', label: 'time', hasLength: false },
+        { value: 'datetime', label: 'datetime', hasLength: false },
+        { value: 'json', label: 'json', hasLength: false },
+        { value: 'uuid', label: 'uuid', hasLength: false },
+        { value: 'timestamps', label: 'timestamps', hasLength: false }
+    ];
+
+    var Inspector = {
+        container: null,
+        draft: null,
+        fields: [],
+        editing: false,
+        tabs : [],
+        
+
+        init: function () {
+            this.container = document.getElementById('inspector');
+            if (!this.container) {
+                console.warn('[inspector] #inspector nao encontrado');
+                return;
+            }
+
+            this.bindEvents();
+        },
+
+        bindEvents: function () {
+            var self = this;
+
+            window.addEventListener('sqlwizard:draft-selected', function (e) {
+                self.show(e.detail.draft);
+            });
+        },
+
+        /**
+         * Modo "ver" — mostra o draft em modo leitura.
+         */
+        show: function (draft) {
+            this.draft = draft;
+            this.editing = false;
+
+            if (!this.container) return;
+
+            var fields = draft.fields || [];
+
+            var cols = fields.map(function (f) {
+                return '<div style="padding: 2px 0; font-family: var(--font-mono); font-size: 12px;">' +
+                    Inspector.escape(f) +
+                    '</div>';
+            }).join('');
+
+            this.container.innerHTML =
+                '<div class="panel-section">' +
+                '  <div class="panel-section-title">Tabela</div>' +
+                '  <div class="panel-section-body">' +
+                '    <p><strong>' + this.escape(draft.table) + '</strong></p>' +
+                '    <p class="is-muted" style="font-size: 11px;">' + this.escape(draft.id) + '</p>' +
+                '    <div class="inspector-actions">' +
+                '      <button class="btn is-primary" data-action="edit" style="width:100%;">✎ Editar tabela</button>' +
+                '      <div class="inspector-actions-row">' +
+                '        <button class="btn" data-action="duplicate">⧉ Duplicar</button>' +
+                '        <button class="btn" data-action="export">⤓ Exportar</button>' +
+                '      </div>' +
+                '      <button class="btn is-danger" data-action="delete" style="width:100%;">⊗ Apagar</button>' +
+                '    </div>' +
+                '  </div>' +
+                '</div>' +
+                '<div class="panel-section">' +
+                '  <div class="panel-section-title">Colunas (' + fields.length + ')</div>' +
+                '  <div class="panel-section-body">' + cols + '</div>' +
+                '</div>';
+
+       
+           this.bindViewActions(draft);
+        },
+
+                bindViewActions: function (draft) {
+            var self = this;
+
+            this.container.querySelectorAll('.inspector-actions [data-action]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var action = btn.getAttribute('data-action');
+
+                    if (action === 'edit') {
+                        self.edit();
+                        return;
+                    }
+
+                    // Reutiliza o mesmo evento do menu de contexto
+                    var contextAction = {
+                        duplicate: 'duplicate-table',
+                        export:    'export-sql',
+                        delete:    'delete-draft'
+                    }[action];
+
+                    if (!contextAction) return;
+
+                    window.dispatchEvent(new CustomEvent('sqlwizard:context-action', {
+                        detail: {
+                            action: contextAction,
+                            ctx: { draftId: draft.id, table: draft.table }
+                        }
+                    }));
+                });
+            });
+        },
+
+        /**
+         * Modo "editar" — transforma o painel em editor.
+         */
+        edit: function (draft) {
+            if (draft) {
+                this.draft = draft;
+            }
+
+            if (!this.draft) return;
+
+            this.editing = true;
+
+            // Parse dos fields
+            this.fields = (this.draft.fields || []).map(function (f) {
+                return Inspector.parseField(f);
+            });
+
+            this.renderEditor();
+        },
+        /**
+         * Parse de "nome:str(100)?=default" para estrutura.
+         */
+        parseField: function (raw) {
+            var info = {
+                name: '',
+                type: 'str',
+                length: '',
+                nullable: false,
+                default: ''
+            };
+
+            var s = String(raw).trim();
+
+            // 'id' ou 'timestamps'
+            if (s === 'id' || s === 'timestamps') {
+                info.name = s;
+                info.type = s;
+                return info;
+            }
+
+            // Nullable
+            if (s.indexOf('?') !== -1) {
+                info.nullable = true;
+                s = s.replace(/\?/g, '');
+            }
+
+            // Default
+            if (s.indexOf('=') !== -1) {
+                var parts = s.split('=', 2);
+                s = parts[0];
+                info.default = parts[1];
+            }
+
+            // nome:tipo(args)
+            var colon = s.indexOf(':');
+            if (colon === -1) {
+                info.name = s;
+                return info;
+            }
+
+            info.name = s.substring(0, colon);
+
+            var rest = s.substring(colon + 1);
+            var paren = rest.indexOf('(');
+
+            if (paren === -1) {
+                info.type = rest;
+            } else {
+                info.type = rest.substring(0, paren);
+
+                var close = rest.indexOf(')', paren);
+                if (close !== -1) {
+                    info.length = rest.substring(paren + 1, close);
+                }
+            }
+
+            return info;
+        },
+
+        /**
+         * Converte estrutura para string.
+         */
+        buildField: function (info) {
+            if (info.type === 'id' || info.type === 'timestamps') {
+                return info.type;
+            }
+
+            var s = info.name + ':' + info.type;
+
+            if (info.length !== '' && info.length !== null && info.length !== undefined) {
+                s += '(' + info.length + ')';
+            }
+
+            if (info.nullable) {
+                s += '?';
+            }
+
+            if (info.default !== '' && info.default !== null && info.default !== undefined) {
+                s += '=' + info.default;
+            }
+
+            return s;
+        },
+
+        /**
+         * Renderiza o editor.
+         */
+        renderEditor: function () {
+            if (!this.container) return;
+
+            var html = [
+                '<div class="panel-section">',
+                '  <div class="panel-section-title">Editar tabela</div>',
+                '  <div class="panel-section-body">',
+                '    <label class="inspector-label">Nome da tabela</label>',
+                '    <input type="text" class="inspector-input" id="insp-table" value="' +
+                this.escape(this.draft.table) + '">',
+                '  </div>',
+                '</div>',
+                '<div class="panel-section">',
+                '  <div class="panel-section-title">Colunas (' + this.fields.length + ')</div>',
+                '  <div class="panel-section-body" id="insp-columns">',
+                this.renderColumns(),
+                '  </div>',
+                '  <div style="padding: 8px 12px;">',
+                '    <button class="btn" id="btn-add-column" style="width: 100%;">+ Adicionar coluna</button>',
+                '  </div>',
+                '</div>',
+                '<div class="panel-section">',
+                '  <div class="panel-section-body" style="display: flex; gap: 8px;">',
+                '    <button class="btn" id="btn-cancel-edit" style="flex: 1;">Cancelar</button>',
+                '    <button class="btn is-primary" id="btn-save-edit" style="flex: 1;">Guardar</button>',
+                '  </div>',
+                '</div>'
+            ].join('');
+
+            this.container.innerHTML = html;
+
+            this.bindEditorEvents();
+        },
+
+        renderColumns: function () {
+            var self = this;
+
+            return this.fields.map(function (f, i) {
+                return self.renderColumn(f, i);
+            }).join('');
+        },
+
+        renderColumn: function (f, index) {
+            var typeOptions = TYPES.map(function (t) {
+                var sel = t.value === f.type ? ' selected' : '';
+                return '<option value="' + t.value + '"' + sel + '>' + t.label + '</option>';
+            }).join('');
+
+            var isSpecial = (f.type === 'id' || f.type === 'timestamps');
+
+            return [
+                '<div class="inspector-column" data-index="' + index + '">',
+                '  <div class="inspector-column-row">',
+                '    <input type="text" class="inspector-input inspector-col-name" value="' +
+                this.escape(f.name) + '" placeholder="nome" ' + (isSpecial ? 'readonly' : '') + '>',
+                '    <button class="inspector-remove" data-remove="' + index + '" title="Remover">×</button>',
+                '  </div>',
+                '  <div class="inspector-column-row">',
+                '    <select class="inspector-input inspector-col-type" data-index="' + index + '">' +
+                typeOptions +
+                '    </select>',
+                '    <input type="text" class="inspector-input inspector-col-length" value="' +
+                this.escape(f.length) + '" placeholder="tam." data-index="' + index + '">',
+                '  </div>',
+                '  <div class="inspector-column-row">',
+                '    <label class="inspector-check">',
+                '      <input type="checkbox" class="inspector-col-nullable" data-index="' + index + '"' +
+                (f.nullable ? ' checked' : '') + '> Nulo',
+                '    </label>',
+                '    <input type="text" class="inspector-input inspector-col-default" value="' +
+                this.escape(f.default) + '" placeholder="default" data-index="' + index + '">',
+                '  </div>',
+                '</div>'
+            ].join('');
+        },
+
+        bindEditorEvents: function () {
+            var self = this;
+
+            // Nome da tabela
+            var tableInput = document.getElementById('insp-table');
+            if (tableInput) {
+                tableInput.addEventListener('input', function () {
+                    self.draft.table = tableInput.value;
+                });
+            }
+
+            // Remover coluna
+            this.container.querySelectorAll('[data-remove]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var i = parseInt(btn.getAttribute('data-remove'), 10);
+                    self.removeColumn(i);
+                });
+            });
+
+            // Adicionar coluna
+            var addBtn = document.getElementById('btn-add-column');
+            if (addBtn) {
+                addBtn.addEventListener('click', function () {
+                    self.addColumn();
+                });
+            }
+
+            // Mudar tipo (mostrar/esconder length)
+            this.container.querySelectorAll('.inspector-col-type').forEach(function (sel) {
+                sel.addEventListener('change', function () {
+                    var i = parseInt(sel.getAttribute('data-index'), 10);
+                    self.fields[i].type = sel.value;
+                    self.renderEditor();
+                });
+            });
+
+            // Inputs de nome
+            this.container.querySelectorAll('.inspector-col-name').forEach(function (inp, i) {
+                inp.addEventListener('input', function () {
+                    var idx = parseInt(inp.closest('.inspector-column').getAttribute('data-index'), 10);
+                    self.fields[idx].name = inp.value;
+                });
+            });
+
+            // Inputs de length
+            this.container.querySelectorAll('.inspector-col-length').forEach(function (inp) {
+                inp.addEventListener('input', function () {
+                    var idx = parseInt(inp.getAttribute('data-index'), 10);
+                    self.fields[idx].length = inp.value;
+                });
+            });
+
+            // Inputs de default
+            this.container.querySelectorAll('.inspector-col-default').forEach(function (inp) {
+                inp.addEventListener('input', function () {
+                    var idx = parseInt(inp.getAttribute('data-index'), 10);
+                    self.fields[idx].default = inp.value;
+                });
+            });
+
+            // Checkboxes nullable
+            this.container.querySelectorAll('.inspector-col-nullable').forEach(function (chk) {
+                chk.addEventListener('change', function () {
+                    var idx = parseInt(chk.getAttribute('data-index'), 10);
+                    self.fields[idx].nullable = chk.checked;
+                });
+            });
+
+            // Cancelar
+            var cancelBtn = document.getElementById('btn-cancel-edit');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function () {
+                    self.show(self.draft);
+                });
+            }
+
+            // Guardar
+            var saveBtn = document.getElementById('btn-save-edit');
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function () {
+                    self.save();
+                });
+            }
+        },
+
+        addColumn: function () {
+            this.fields.push({
+                name: 'nova_coluna',
+                type: 'str',
+                length: '255',
+                nullable: true,
+                default: ''
+            });
+            this.renderEditor();
+        },
+
+        removeColumn: function (index) {
+            this.fields.splice(index, 1);
+            this.renderEditor();
+        },
+
+        /**
+         * Guarda o draft via API.
+         */
+        save: function () {
+            var self = this;
+
+            if (!this.draft) return;
+
+            var table = this.draft.table.trim();
+
+            if (table === '') {
+                if (window.SqlWizardToast) {
+                    window.SqlWizardToast.error('Nome da tabela é obrigatório', { title: 'Erro' });
+                }
+                return;
+            }
+
+            // Converter estrutura de volta para strings
+            var fields = this.fields.map(function (f) {
+                return self.buildField(f);
+            });
+
+            var payload = {
+                table: table,
+                fields: fields
+            };
+
+            console.log('[inspector] a guardar:', payload);
+
+            window.SqlWizardApi.updateDraftFull(this.draft.id, payload)
+                .then(function (res) {
+                    console.log('[inspector] guardado:', res);
+
+                    if (window.SqlWizardToast) {
+                        window.SqlWizardToast.success('Draft atualizado', {
+                            title: self.draft.table,
+                            duration: 2000
+                        });
+                    }
+
+                    // Atualizar draft local
+                    self.draft = res.draft;
+                    self.fields = [];
+                    self.editing = false;
+
+                    // Atualizar vista
+                    self.show(self.draft);
+
+                    // Atualizar canvas + explorer
+                    window.dispatchEvent(new CustomEvent('sqlwizard:draft-selected', {
+                        detail: { draft: self.draft }
+                    }));
+                    window.SqlWizardExplorer.load();
+                })
+                .catch(function (err) {
+                    console.error('[inspector] erro a guardar:', err);
+
+                    if (window.SqlWizardToast) {
+                        window.SqlWizardToast.error(err.message || 'Erro', {
+                            title: 'Erro ao guardar'
+                        });
+                    }
+                });
+        },
+
+        escape: function (str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    };
+
+    return Inspector;
+
+})(window, document);

@@ -1,0 +1,97 @@
+/* ============================================================
+ * Beaver SqlWizard — toast.css
+ * Notificações temporárias (canto inferior direito)
+ * ============================================================ */
+
+.toast-container {
+    position: fixed;
+    bottom: var(--sp-4);
+    right: var(--sp-4);
+    z-index: 50000;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    pointer-events: none;
+    max-width: 380px;
+}
+
+.toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--fg-muted);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--fs-base);
+    color: var(--fg);
+    pointer-events: auto;
+    animation: toast-in 0.18s ease-out;
+    min-width: 260px;
+}
+
+.toast.is-leaving {
+    animation: toast-out 0.15s ease-in forwards;
+}
+
+@keyframes toast-in {
+    from { transform: translateX(20px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes toast-out {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(20px); opacity: 0; }
+}
+
+/* Variantes */
+.toast.is-success { border-left-color: var(--success); }
+.toast.is-error   { border-left-color: var(--danger);  }
+.toast.is-warning { border-left-color: var(--warning); }
+.toast.is-info    { border-left-color: var(--accent);  }
+
+.toast-icon {
+    font-size: 16px;
+    line-height: 1.3;
+    flex-shrink: 0;
+}
+
+.toast.is-success .toast-icon { color: var(--success); }
+.toast.is-error   .toast-icon { color: var(--danger);  }
+.toast.is-warning .toast-icon { color: var(--warning); }
+.toast.is-info    .toast-icon { color: var(--accent);  }
+
+.toast-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.toast-message {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    word-break: break-word;
+}
+
+.toast-close {
+    align-self: flex-start;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.toast-close:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}

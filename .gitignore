@@ -1,0 +1,35 @@
+# Dependências
+/vendor/
+/node_modules/
+
+# Build / cache
+/storage/
+!storage/connections.example.json
+*.log
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Ligações (contêm passwords)
+storage/connections.local.json
+storage/sandboxes/
+
+# Licenças locais do cliente (geradas em runtime)
+/storage/.license
+/storage/.installation_id
+
+# Chaves — privadas nunca, pública sim
+/keys/*.key
+/keys/*.pem
+!/keys/license_public.key
+
+# Bases de dados locais
+*.sqlite
+*.sql
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

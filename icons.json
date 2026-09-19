@@ -1,0 +1,34 @@
+{
+    "_comment": "Ícones por tabela. Chave = nome da tabela (singular ou plural).",
+    "_fallback": "▦",
+
+    "users":      "👤",
+    "user":       "👤",
+    "customers":  "🧑",
+    "posts":      "📝",
+    "post":       "📝",
+    "articles":   "📰",
+    "products":   "📦",
+    "product":    "📦",
+    "orders":     "🛒",
+    "order":      "🛒",
+    "items":      "🔖",
+    "item":       "🔖",
+    "demo_items": "🧪",
+
+    "teams":      "👥",
+    "team":       "👥",
+    "roles":      "🎭",
+    "permissions":"🔐",
+
+    "comments":   "💬",
+    "tags":       "🏷️",
+    "categories": "🗂️",
+    "files":      "📁",
+    "images":     "🖼️",
+    "logs":       "📋",
+    "events":     "📅",
+    "messages":   "✉️",
+    "sessions":   "🔑",
+    "settings":   "⚙️"
+}

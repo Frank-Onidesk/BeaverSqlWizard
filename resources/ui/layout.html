@@ -1,0 +1,64 @@
+<!-- ============================================================
+     beaver-framework/plugins/sqlwizard/resources/ui/layout.html
+     Esqueleto HTML — menu + tabs + dock (Golden Layout)
+     ============================================================ -->
+
+<div id="layout">
+
+    <!-- ═══════════════════════════════════════════════════════
+         MENU TOPO
+         ═══════════════════════════════════════════════════════ -->
+    <header class="menu-bar">
+
+        <span class="logo">
+            <span class="logo-icon">🦫</span>
+            <span class="logo-text">Beaver · SqlWizard</span>
+        </span>
+
+        <nav class="menu-items">
+            <button class="menu-item" data-menu="ficheiro">Ficheiro</button>
+            <button class="menu-item" data-menu="editar">Editar</button>
+            <button class="menu-item" data-menu="ver">Ver</button>
+            <button class="menu-item" data-menu="schema">Schema</button>
+            <button class="menu-item" data-menu="bd">Base de Dados</button>
+            <button class="menu-item" data-menu="ajuda">Ajuda</button>
+        </nav>
+
+        <div class="menu-spacer"></div>
+
+        <div class="menu-actions">
+            <button class="menu-action" id="btn-reset-layout" title="Repor o layout inicial">⟲</button>
+        </div>
+
+    </header>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         TABS HORIZONTAIS
+         ═══════════════════════════════════════════════════════ -->
+    <div class="tabs-bar">
+        <div class="tabs" id="tabs"></div>
+        <button class="tab-add" id="tab-add" title="Nova tab">+</button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         DOCK — Golden Layout constrói aqui os painéis
+         ═══════════════════════════════════════════════════════ -->
+    <div id="dock"></div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MENU DE CONTEXTO
+     ═══════════════════════════════════════════════════════ -->
+<div class="context-menu" id="context-menu" hidden></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL
+     ═══════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+</div>

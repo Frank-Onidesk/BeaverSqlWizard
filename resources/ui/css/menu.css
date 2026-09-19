@@ -1,0 +1,162 @@
+/* ============================================================
+ * Beaver SqlWizard — menu.css
+ * ------------------------------------------------------------
+ * Barra de menu do topo + botões de ação.
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Barra principal
+ * ------------------------------------------------------------ */
+
+.menu-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    height: 100%;
+    padding: 0 var(--sp-3);
+    user-select: none;
+}
+
+/* ------------------------------------------------------------
+ * 2. Logo
+ * ------------------------------------------------------------ */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-weight: 600;
+    font-size: var(--fs-md);
+    color: var(--fg);
+    padding-right: var(--sp-3);
+    border-right: 1px solid var(--border);
+    height: 60%;
+}
+
+.logo-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.logo-text {
+    white-space: nowrap;
+    color: var(--accent);
+}
+
+/* ------------------------------------------------------------
+ * 3. Itens de menu
+ * ------------------------------------------------------------ */
+
+.menu-items {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 100%;
+}
+
+.menu-item {
+    height: 100%;
+    padding: 0 var(--sp-3);
+    font-size: var(--fs-base);
+    color: var(--fg);
+    border-radius: var(--radius-sm);
+    transition: background var(--t-fast), color var(--t-fast);
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background: var(--bg-hover);
+}
+
+.menu-item:active {
+    background: var(--bg-active);
+}
+
+.menu-item.is-open {
+    background: var(--bg-active);
+    color: var(--accent);
+}
+
+/* ------------------------------------------------------------
+ * 4. Espaçador (empurra as ações para a direita)
+ * ------------------------------------------------------------ */
+
+.menu-spacer {
+    flex: 1;
+}
+
+/* ------------------------------------------------------------
+ * 5. Ações à direita (colapsar painéis)
+ * ------------------------------------------------------------ */
+
+.menu-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.menu-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 24px;
+    font-size: var(--fs-md);
+    color: var(--fg-muted);
+    border-radius: var(--radius-sm);
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.menu-action:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.menu-action.is-active {
+    background: var(--accent);
+    color: var(--accent-fg);
+}
+
+/* ------------------------------------------------------------
+ * 6. Dropdowns (a serem usados mais tarde pelos menu-item)
+ * ------------------------------------------------------------ */
+
+.menu-dropdown {
+    position: absolute;
+    top: var(--h-menu);
+    min-width: 180px;
+    padding: var(--sp-1) 0;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 100;
+}
+
+.menu-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-base);
+    color: var(--fg);
+    text-align: left;
+    transition: background var(--t-fast);
+}
+
+.menu-dropdown-item:hover {
+    background: var(--bg-hover);
+}
+
+.menu-dropdown-item .shortcut {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+}
+
+.menu-dropdown-sep {
+    height: 1px;
+    margin: var(--sp-1) 0;
+    background: var(--border);
+}

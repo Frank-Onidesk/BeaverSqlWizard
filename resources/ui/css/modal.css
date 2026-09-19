@@ -1,0 +1,290 @@
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: modal-fade-in 0.15s ease-out;
+}
+
+.modal-backdrop[hidden] {
+    display: none;
+}
+
+@keyframes modal-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    min-width: 360px;
+    max-width: 520px;
+    animation: modal-slide-up 0.15s ease-out;
+}
+
+@keyframes modal-slide-up {
+    from { transform: translateY(8px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-4) var(--sp-5);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    font-size: var(--fs-md);
+}
+
+.modal-header.is-danger {
+    color: var(--danger);
+}
+
+.modal-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.modal-body {
+    padding: var(--sp-4) var(--sp-5);
+    font-size: var(--fs-base);
+    line-height: 1.5;
+}
+
+.modal-body p {
+    margin: 0 0 var(--sp-3) 0;
+}
+
+.modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.modal-body code {
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-5);
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.btn {
+    padding: 6px 14px;
+    font-size: var(--fs-base);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-panel);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background var(--t-fast), border-color var(--t-fast);
+}
+
+.btn:hover {
+    background: var(--bg-hover);
+}
+
+.btn.is-primary {
+    background: var(--beaver-700);
+    color: white;
+    border-color: var(--beaver-700);
+}
+
+.btn.is-primary:hover {
+    background: var(--beaver-600);
+}
+
+.btn.is-danger {
+    background: var(--danger);
+    color: white;
+    border-color: var(--danger);
+}
+
+.btn.is-danger:hover {
+    background: #b31924;
+}
+
+
+
+/* ------------------------------------------------------------
+ * Formulário Nova Ligação dentro do modal
+ * ------------------------------------------------------------ */
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modal-label {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fg-muted);
+    font-weight: 600;
+}
+
+.modal-field-hint {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    margin: 2px 0 0 0;
+    font-style: italic;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: var(--fs-base);
+    color: var(--fg);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.modal-input:focus {
+    border-color: var(--beaver-700);
+    box-shadow: 0 0 0 2px rgba(122, 82, 48, 0.15);
+}
+
+.modal-input[type="password"] {
+    font-family: var(--font-mono);
+}
+
+select.modal-input {
+    cursor: pointer;
+}
+
+/* Footer com botões à esquerda e direita */
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-5);
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.modal-footer-left,
+.modal-footer-right {
+    display: flex;
+    gap: var(--sp-2);
+}
+
+.modal-footer-right {
+    margin-left: auto;
+}
+
+/* ------------------------------------------------------------
+ * Lista de escolhas (modal.choose)
+ * ------------------------------------------------------------ */
+
+.modal-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: var(--sp-3);
+}
+
+.modal-choice {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    width: 100%;
+    padding: 10px var(--sp-3);
+    font-size: var(--fs-base);
+    color: var(--fg);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+}
+
+.modal-choice:hover {
+    background: var(--beaver-50);
+    border-color: var(--beaver-100);
+    color: var(--beaver-800);
+}
+
+.modal-choice.is-primary {
+    background: var(--beaver-50);
+    border-color: var(--beaver-300);
+    color: var(--beaver-800);
+    font-weight: 500;
+}
+
+.modal-choice.is-primary:hover {
+    background: var(--beaver-100);
+    border-color: var(--beaver-500);
+}
+
+.modal-choice.is-danger:hover {
+    background: rgba(207, 34, 46, 0.08);
+    border-color: rgba(207, 34, 46, 0.2);
+    color: var(--danger);
+}
+
+.modal-choice-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.modal-choice-label {
+    flex: 1;
+}
+
+.modal-choice-hint {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+}
+
+/* ------------------------------------------------------------
+ * Pré-formatado dentro do modal (preview de schema)
+ * ------------------------------------------------------------ */
+
+.modal-pre {
+    margin: var(--sp-3) 0 0 0;
+    padding: var(--sp-3);
+    max-height: 300px;
+    overflow: auto;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.45;
+    white-space: pre;
+    color: var(--fg);
+}

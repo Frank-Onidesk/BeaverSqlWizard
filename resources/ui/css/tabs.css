@@ -1,0 +1,164 @@
+/* ============================================================
+ * Beaver SqlWizard — tabs.css
+ * ------------------------------------------------------------
+ * Barra de tabs horizontais (uma por tabela/draft aberto).
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Barra
+ * ------------------------------------------------------------ */
+
+.tabs-bar {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    padding: 0 var(--sp-2);
+    gap: var(--sp-1);
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+ * 2. Contentor das tabs
+ * ------------------------------------------------------------ */
+
+.tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+}
+
+/* Esconde a scrollbar horizontal quando não há overflow */
+.tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+/* ------------------------------------------------------------
+ * 3. Tab individual
+ * ------------------------------------------------------------ */
+
+.tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    height: 100%;
+    padding: 0 var(--sp-3);
+    font-size: var(--fs-base);
+    color: var(--fg-muted);
+    background: transparent;
+    border-top: 2px solid transparent;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    transition: background var(--t-fast), color var(--t-fast);
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+/* Tab ativa */
+.tab.is-active {
+    background: var(--bg-panel);
+    color: var(--fg);
+    border-top-color: var(--accent);
+}
+
+.tab.is-active:hover {
+    background: var(--bg-panel);
+}
+
+/* Ícone da tab (opcional) */
+.tab-icon {
+    font-size: 11px;
+    color: var(--fg-subtle);
+    line-height: 1;
+}
+
+.tab.is-active .tab-icon {
+    color: var(--accent);
+}
+
+/* Nome da tab */
+.tab-label {
+    font-size: var(--fs-base);
+    line-height: 1;
+}
+
+/* Botão fechar */
+.tab-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: var(--sp-1);
+    margin-right: -4px;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    border-radius: var(--radius-sm);
+    opacity: 0.6;
+    transition: background var(--t-fast), color var(--t-fast), opacity var(--t-fast);
+}
+
+.tab:hover .tab-close {
+    opacity: 1;
+}
+
+.tab-close:hover {
+    background: var(--danger);
+    color: white;
+    opacity: 1;
+}
+
+/* ------------------------------------------------------------
+ * 4. Botão "+" (nova tab)
+ * ------------------------------------------------------------ */
+
+.tab-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 100%;
+    margin-left: var(--sp-1);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--fg-muted);
+    border-radius: var(--radius-sm);
+    transition: background var(--t-fast), color var(--t-fast);
+    flex-shrink: 0;
+}
+
+.tab-add:hover {
+    background: var(--bg-hover);
+    color: var(--accent);
+}
+
+.tab-add:active {
+    background: var(--bg-active);
+}
+
+/* ------------------------------------------------------------
+ * 5. Mensagem quando não há tabs
+ * ------------------------------------------------------------ */
+
+.tabs-empty {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--sp-3);
+    font-size: var(--fs-sm);
+    color: var(--fg-subtle);
+    font-style: italic;
+}

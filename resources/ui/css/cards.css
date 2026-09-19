@@ -1,0 +1,198 @@
+/* ============================================================
+ * Beaver SqlWizard — cards.css
+ * ------------------------------------------------------------
+ * Cartões de tabela no canvas.
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Posicionamento
+ * ------------------------------------------------------------ */
+
+.card {
+    position: absolute;
+    min-width: 220px;
+    max-width: 320px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-size: var(--fs-base);
+    overflow: hidden;
+    user-select: none;
+    cursor: grab;
+    transition: box-shadow var(--t-base), border-color var(--t-base);
+    touch-action: none;   /* impede scroll nativo enquanto arrastas em mobile */
+}
+
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.card.is-selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(110, 64, 201, 0.15), var(--shadow-md);
+}
+
+
+
+/* ------------------------------------------------------------
+ * 2. Cabeçalho
+ * ------------------------------------------------------------ */
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--card-header-bg);
+    color: var(--card-header-fg);
+    font-weight: 600;
+    font-size: var(--fs-md);
+    cursor: default;
+    border-bottom: 1px solid var(--border);
+    transition: background var(--t-fast);
+}
+
+.card:hover .card-header {
+    background: var(--card-header-hover);
+}
+
+.card-icon {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.card-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-badge {
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    letter-spacing: 0.03em;
+}
+
+/* ------------------------------------------------------------
+ * 3. Corpo (colunas)
+ * ------------------------------------------------------------ */
+
+.card-body {
+    padding: 0;
+}
+
+.card-columns {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.card-column {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 4px var(--sp-3);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+}
+
+.card-column:last-child {
+    border-bottom: 0;
+}
+
+.card-column:hover {
+    background: var(--bg-alt);
+}
+
+/* Ícone da coluna (PK, unique, etc.) */
+.card-col-icon {
+    font-size: 11px;
+    text-align: center;
+    line-height: 1;
+}
+
+.card-col-icon.is-pk {
+    color: #d4a017;
+}
+
+/* dourado — chave primária */
+.card-col-icon.is-unique {
+    color: #6e40c9;
+}
+
+/* roxo    — unique         */
+.card-col-icon.is-fk {
+    color: #1a7f37;
+}
+
+/* verde   — foreign key    */
+.card-col-icon.is-null {
+    color: var(--fg-subtle);
+}
+
+/* Nome da coluna */
+.card-col-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--fg);
+}
+
+.card-column.is-nullable .card-col-name {
+    color: var(--fg-muted);
+}
+
+/* Tipo da coluna */
+.card-col-type {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fg-subtle);
+    white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+ * 4. Rodapé (opcional — índice, FK, etc.)
+ * ------------------------------------------------------------ */
+
+.card-footer {
+    padding: var(--sp-1) var(--sp-3);
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ------------------------------------------------------------
+ * 5. Estados
+ * ------------------------------------------------------------ */
+
+
+
+.card.is-dragging {
+    cursor: grabbing;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+    transition: none;   /* zero transições durante o drag (fluidez máxima) */
+    opacity: 0.95;
+}
+
+.card-placeholder {
+    position: absolute;
+    border: 2px dashed var(--accent);
+    border-radius: var(--radius-md);
+    background: rgba(110, 64, 201, 0.05);
+    pointer-events: none;
+    opacity: 0.5;
+}

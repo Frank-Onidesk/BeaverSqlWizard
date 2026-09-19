@@ -1,0 +1,19 @@
+{
+    "name": "SqlWizard",
+    "slug": "sqlwizard",
+    "version": "0.1.0",
+    "author": "Onidesk",
+    "description": "Visual schema editor for Beaver — canvas, drafts, SQL generation",
+    "namespace": "Beaver\\Plugins\\SqlWizard",
+    "main": "src/SqlWizardPlugin.php",
+    "beaver_version": ">=0.1.0",
+    "requires": {
+        "php": ">=8.1"
+    },
+    "admin_menu": {
+        "label": "SqlWizard",
+        "icon": "fa-project-diagram"
+    },
+    "routes": "routes/web.php",
+    "enabled": true
+}

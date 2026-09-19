@@ -1,0 +1,177 @@
+/* ============================================================
+ * beaver-framework/plugins/sqlwizard/resources/ui/css/dock.css
+ * ------------------------------------------------------------
+ * Tema Beaver para o Golden Layout.
+ * Sobrepõe o goldenlayout-base.css com as cores do SqlWizard.
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Contentor do layout
+ * ------------------------------------------------------------ */
+
+.lm_goldenlayout {
+    background: var(--bg);
+}
+
+.lm_content {
+    background: var(--bg-panel);
+    border: 0;
+}
+
+/* ------------------------------------------------------------
+ * 2. Splitters (barras entre painéis)
+ * ------------------------------------------------------------ */
+
+.lm_splitter {
+    background: var(--border);
+    opacity: 1;
+    transition: background var(--t-fast);
+}
+
+.lm_splitter:hover,
+.lm_splitter.lm_dragging {
+    background: var(--accent);
+}
+
+.lm_splitter.lm_vertical .lm_drag_handle {
+    width: 100%;
+    height: 100%;
+}
+
+.lm_splitter.lm_horizontal .lm_drag_handle {
+    height: 100%;
+    width: 100%;
+}
+
+/* ------------------------------------------------------------
+ * 3. Cabeçalho dos painéis (tabs do Golden Layout)
+ * ------------------------------------------------------------ */
+
+.lm_header {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    height: 28px;
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+}
+
+.lm_header .lm_tab {
+    background: transparent;
+    color: var(--fg-muted);
+    border: 0;
+    border-right: 1px solid var(--border);
+    padding: 0 12px;
+    height: 100%;
+    font-size: var(--fs-sm);
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.lm_header .lm_tab:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.lm_header .lm_tab.lm_active {
+    background: var(--bg-panel);
+    color: var(--fg);
+    border-bottom: 2px solid var(--beaver-700);
+    padding-bottom: 0;
+}
+
+.lm_header .lm_tab .lm_title {
+    padding-top: 0;
+    line-height: 27px;
+}
+
+.lm_header .lm_tab .lm_close_tab {
+    display: none;   /* sem botão de fechar (isClosable: false) */
+}
+
+/* ------------------------------------------------------------
+ * 4. Controlos no cabeçalho (maximizar, popout)
+ * ------------------------------------------------------------ */
+
+.lm_header .lm_controls {
+    display: flex;
+    align-items: center;
+}
+
+.lm_header .lm_controls > li {
+    background: transparent;
+    opacity: 0.6;
+    transition: opacity var(--t-fast), background var(--t-fast);
+}
+
+.lm_header .lm_controls > li:hover {
+    opacity: 1;
+    background: var(--bg-hover);
+}
+
+/* ------------------------------------------------------------
+ * 5. Painéis em popout (janelas destacadas)
+ * ------------------------------------------------------------ */
+
+.lm_popup_share {
+    background: var(--bg-panel);
+}
+
+/* ------------------------------------------------------------
+ * 6. Overlays de drag (para ver onde vai encaixar)
+ * ------------------------------------------------------------ */
+
+.lm_drop_tab_placeholder {
+    background: var(--accent);
+    opacity: 0.3;
+}
+
+.lm_drop_target {
+    background: var(--accent);
+    opacity: 0.2;
+}
+
+/* ------------------------------------------------------------
+ * 7. Ajustes internos dos painéis
+ * ------------------------------------------------------------ */
+
+/* Cada painel do Golden Layout é um contentor. */
+/* O conteúdo real (explorer, canvas, inspector, bottom) tem de preencher 100% */
+
+.lm_content > .panel-left,
+.lm_content > .panel-right,
+.lm_content > .canvas,
+.lm_content > .bottom-panel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Remover borders antigas — o splitter já faz a separação */
+.lm_content > .panel-left {
+    border-right: 0;
+}
+
+.lm_content > .panel-right {
+    border-left: 0;
+}
+
+.lm_content > .bottom-panel {
+    border-top: 0;
+}
+
+/* ------------------------------------------------------------
+ * 8. Modo compacto para ecrãs pequenos
+ * ------------------------------------------------------------ */
+
+@media (max-width: 700px) {
+    .lm_header {
+        height: 24px;
+        font-size: var(--fs-xs);
+    }
+    
+    .lm_header .lm_tab {
+        padding: 0 8px;
+    }
+}

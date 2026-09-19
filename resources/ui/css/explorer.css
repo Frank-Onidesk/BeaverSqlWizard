@@ -1,0 +1,438 @@
+/* ============================================================
+ * Beaver SqlWizard — explorer.css
+ * ------------------------------------------------------------
+ * Toggle Drafts / Ligações + vista de ligações.
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Toggle no topo do painel esquerdo
+ * ------------------------------------------------------------ */
+
+.explorer-toggle {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.explorer-tab {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-1);
+    padding: 5px 8px;
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+    white-space: nowrap;
+}
+
+.explorer-tab:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.explorer-tab.is-active {
+    background: var(--bg-panel);
+    color: var(--beaver-700);
+    border-color: var(--border);
+    font-weight: 500;
+}
+
+.explorer-tab-icon {
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* ------------------------------------------------------------
+ * 2. Contentor do conteúdo (dentro do #explorer)
+ * ------------------------------------------------------------ */
+
+.explorer-view {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+
+/* ------------------------------------------------------------
+ * 3. Vista de ligações — barra de ações
+ * ------------------------------------------------------------ */
+
+.connections-actions {
+    padding: var(--sp-2) 0;
+}
+
+.connections-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    width: 100%;
+    padding: 6px 10px;
+    font-size: var(--fs-sm);
+    color: var(--beaver-700);
+    background: var(--beaver-50);
+    border: 1px dashed var(--beaver-300);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), border-color var(--t-fast);
+}
+
+.connections-add:hover {
+    background: var(--beaver-100);
+    border-color: var(--beaver-500);
+}
+
+/* ------------------------------------------------------------
+ * 4. Ligação (cartão)
+ * ------------------------------------------------------------ */
+
+.connection {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-panel);
+    overflow: hidden;
+}
+
+.connection-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: background var(--t-fast);
+    user-select: none;
+}
+
+.connection-header:hover {
+    background: var(--bg-hover);
+}
+
+.connection-toggle {
+    font-size: 9px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    transition: transform var(--t-fast);
+}
+
+.connection.is-open .connection-toggle {
+    transform: rotate(90deg);
+}
+
+.connection-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--fg-subtle);
+    flex-shrink: 0;
+}
+
+.connection-status.is-ok     { background: var(--success); }
+.connection-status.is-error  { background: var(--danger); }
+.connection-status.is-testing { background: var(--warning); animation: pulse 1s infinite; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+}
+
+.connection-name {
+    flex: 1;
+    font-size: var(--fs-base);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.connection-driver {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+}
+
+.connection-body {
+    display: none;
+    padding: var(--sp-2) 8px var(--sp-3) 8px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt);
+    font-size: var(--fs-sm);
+}
+
+.connection.is-open .connection-body {
+    display: block;
+}
+
+.connection-host {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+    margin-bottom: var(--sp-2);
+    word-break: break-all;
+}
+
+.connection-actions {
+    display: flex;
+    gap: var(--sp-1);
+    margin-bottom: var(--sp-2);
+}
+
+.connection-action {
+    flex: 1;
+    padding: 3px 6px;
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+
+.connection-action:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.connection-action.is-danger:hover {
+    background: rgba(207, 34, 46, 0.08);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+/* ------------------------------------------------------------
+ * 5. Bases de dados (dentro da ligação)
+ * ------------------------------------------------------------ */
+
+.connection-dbs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.connection-db {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 3px 4px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    transition: background var(--t-fast);
+}
+
+.connection-db:hover {
+    background: var(--bg-panel);
+}
+
+.connection-db.is-selected {
+    background: var(--beaver-100);
+    color: var(--beaver-800);
+}
+
+.connection-db-icon {
+    font-size: 11px;
+    color: var(--fg-subtle);
+}
+
+.connection-db-name {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+}
+
+.connection-db-count {
+    font-size: 10px;
+    color: var(--fg-subtle);
+    background: var(--bg-panel);
+    padding: 1px 5px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* ------------------------------------------------------------
+ * 6. Tabelas (dentro da BD)
+ * ------------------------------------------------------------ */
+
+.connection-tables {
+    list-style: none;
+    margin: 2px 0 2px 16px;
+    padding: 0;
+    border-left: 1px solid var(--border);
+}
+
+.connection-table {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 3px 6px;
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.connection-table:hover {
+    background: var(--bg-panel);
+    color: var(--fg);
+}
+
+.connection-table-icon {
+    font-size: 10px;
+    color: var(--fg-subtle);
+}
+
+/* ------------------------------------------------------------
+ * 7. Estados vazios
+ * ------------------------------------------------------------ */
+
+.connections-empty {
+    padding: var(--sp-4) var(--sp-2);
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--fg-subtle);
+    font-style: italic;
+}
+
+/* Estados de loading / erro / vazio (dentro de uma ligação) */
+
+.connection-loading,
+.connection-empty {
+    padding: var(--sp-2) 4px;
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-style: italic;
+}
+
+.connection-error {
+    padding: var(--sp-2) 4px;
+    font-size: var(--fs-xs);
+    color: var(--danger);
+}
+
+.connection-loading-inline,
+.connection-empty-inline {
+    padding: 2px 4px 2px 20px;
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-style: italic;
+}
+
+.connection-error-inline {
+    padding: 2px 4px 2px 20px;
+    font-size: var(--fs-xs);
+    color: var(--danger);
+}
+/* ------------------------------------------------------------
+ * LocalStorage viewer
+ * ------------------------------------------------------------ */
+
+.storage-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.storage-item {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: background var(--t-fast), border-color var(--t-fast);
+}
+
+.storage-item:hover {
+    background: var(--bg-hover);
+}
+
+.storage-item.is-expanded {
+    border-color: var(--beaver-500);
+}
+
+.storage-item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.storage-item-key {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--beaver-700);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.storage-item-size {
+    font-size: 10px;
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+}
+
+.storage-item-delete {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--fg-subtle);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.storage-item-delete:hover {
+    background: rgba(207, 34, 46, 0.1);
+    color: var(--danger);
+}
+
+.storage-item-value {
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.storage-item.is-expanded .storage-item-value {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.connections-add.is-danger {
+    color: var(--danger);
+    background: rgba(207, 34, 46, 0.05);
+    border-color: rgba(207, 34, 46, 0.2);
+}
+
+.connections-add.is-danger:hover {
+    background: rgba(207, 34, 46, 0.1);
+    border-color: var(--danger);
+}

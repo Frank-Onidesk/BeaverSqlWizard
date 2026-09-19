@@ -1,0 +1,743 @@
+/* ============================================================
+ * Beaver SqlWizard — panels.css
+ * ------------------------------------------------------------
+ * Painéis da aplicação: esquerdo (Explorer), direito (Inspector)
+ * e inferior (SQL/Schema/Resultados/Log).
+ * ============================================================ */
+
+/* ------------------------------------------------------------
+ * 1. Estrutura comum dos painéis
+ * ------------------------------------------------------------ */
+
+.panel-left,
+.panel-right,
+.bottom-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+ * 2. Cabeçalho do painel
+ * ------------------------------------------------------------ */
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+    padding: 0 var(--sp-3);
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.panel-header>span {
+    line-height: 1;
+}
+
+/* Ações dentro do cabeçalho (opcional, futuro) */
+.panel-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.panel-header-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    color: var(--fg-subtle);
+    border-radius: var(--radius-sm);
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.panel-header-action:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+/* ------------------------------------------------------------
+ * 3. Corpo do painel (com scroll)
+ * ------------------------------------------------------------ */
+
+.panel-body {
+    flex: 1;
+    min-height: 0;
+    padding: var(--sp-3);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Mensagem de estado vazio */
+.panel-empty {
+    padding: var(--sp-4) var(--sp-3);
+    font-size: var(--fs-sm);
+    color: var(--fg-subtle);
+    text-align: center;
+    font-style: italic;
+}
+
+/* ------------------------------------------------------------
+ * 4. Lista genérica dentro de painéis
+ * ------------------------------------------------------------ */
+
+.panel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.panel-list-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-base);
+    color: var(--fg);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast);
+    user-select: none;
+}
+
+.panel-list-item:hover {
+    background: var(--bg-hover);
+}
+
+.panel-list-item.is-selected {
+    background: var(--accent);
+    color: var(--accent-fg);
+}
+
+.panel-list-item.is-selected .panel-list-icon {
+    color: var(--accent-fg);
+}
+
+.panel-list-icon {
+    font-size: 12px;
+    color: var(--fg-subtle);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.panel-list-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.panel-list-meta {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+}
+
+.panel-list-item.is-selected .panel-list-meta {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ------------------------------------------------------------
+ * 5. Secções com título (agrupamento no explorer)
+ * ------------------------------------------------------------ */
+
+.panel-section {
+    margin-bottom: var(--sp-3);
+}
+
+.panel-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-1) var(--sp-3);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fg-subtle);
+    user-select: none;
+    cursor: pointer;
+}
+
+.panel-section-title:hover {
+    color: var(--fg-muted);
+}
+
+.panel-section-toggle {
+    font-size: 9px;
+    line-height: 1;
+    transition: transform var(--t-fast);
+}
+
+.panel-section.is-collapsed .panel-section-toggle {
+    transform: rotate(-90deg);
+}
+
+.panel-section.is-collapsed .panel-section-body {
+    display: none;
+}
+
+/* ------------------------------------------------------------
+ * 6. Painel inferior — tabs
+ * ------------------------------------------------------------ */
+
+.bottom-tabs {
+    display: flex;
+    align-items: stretch;
+    height: 28px;
+    padding: 0 var(--sp-2);
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.bottom-tab {
+    padding: 0 var(--sp-3);
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    border-bottom: 2px solid transparent;
+    transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+    cursor: pointer;
+    user-select: none;
+}
+
+.bottom-tab:hover {
+    color: var(--fg);
+    background: var(--bg-hover);
+}
+
+.bottom-tab.is-active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--bg-panel);
+}
+
+/* ------------------------------------------------------------
+ * 7. Painel inferior — corpo
+ * ------------------------------------------------------------ */
+
+.bottom-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: var(--bg-panel);
+}
+
+.bottom-pre {
+    margin: 0;
+    padding: var(--sp-3) var(--sp-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--fg);
+    white-space: pre;
+    tab-size: 4;
+}
+
+/* ------------------------------------------------------------
+ * Inspector: editor de colunas
+ * ------------------------------------------------------------ */
+
+.inspector-label {
+    display: block;
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fg-muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.inspector-input {
+    width: 100%;
+    padding: 5px 8px;
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.inspector-input:focus {
+    border-color: var(--beaver-700);
+    box-shadow: 0 0 0 2px rgba(122, 82, 48, 0.15);
+}
+
+.inspector-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    margin-bottom: 6px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.inspector-column-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.inspector-col-name {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+}
+
+.inspector-col-length {
+    max-width: 70px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+}
+
+.inspector-col-default {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+}
+
+.inspector-remove {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--fg-subtle);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+
+.inspector-remove:hover {
+    background: rgba(207, 34, 46, 0.08);
+    color: var(--danger);
+    border-color: rgba(207, 34, 46, 0.2);
+}
+
+.inspector-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.inspector-check input {
+    margin: 0;
+}
+
+/* ------------------------------------------------------------
+ * Inspector: tabs verticais (acordeão)
+ * ------------------------------------------------------------ */
+
+.insp-tab {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--t-fast);
+}
+
+.insp-tab:first-child {
+    border-top: 1px solid var(--border);
+}
+
+.insp-tab.is-active {
+    background: var(--bg-panel);
+}
+
+.insp-tab.is-expanded {
+    background: var(--bg-panel);
+    border-left: 3px solid var(--beaver-700);
+}
+
+/* Cabeçalho da tab */
+.insp-tab-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 8px 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--t-fast);
+}
+
+.insp-tab-header:hover {
+    background: var(--bg-hover);
+}
+
+.insp-tab.is-active .insp-tab-header:hover {
+    background: var(--bg-panel);
+}
+
+.insp-tab-toggle {
+    font-size: 9px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    transition: transform var(--t-fast);
+    flex-shrink: 0;
+}
+
+.insp-tab.is-expanded .insp-tab-toggle {
+    transform: rotate(90deg);
+}
+
+.insp-tab-icon {
+    font-size: 12px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    flex-shrink: 0;
+}
+
+.insp-tab.is-active .insp-tab-icon {
+    color: var(--beaver-700);
+}
+
+.insp-tab-title {
+    flex: 1;
+    font-size: var(--fs-base);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--fg);
+}
+
+.insp-tab.is-active .insp-tab-title {
+    color: var(--beaver-800);
+}
+
+.insp-tab-close {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--fg-subtle);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+
+.insp-tab-close:hover {
+    background: rgba(207, 34, 46, 0.1);
+    color: var(--danger);
+}
+
+/* Corpo da tab (expandido) */
+.insp-tab-body {
+    padding: 12px;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    animation: insp-slide-down 0.15s ease-out;
+}
+
+@keyframes insp-slide-down {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+ * Bottom: tab Dados
+ * ------------------------------------------------------------ */
+
+.bottom-data-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 6px 12px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--fs-xs);
+    flex-shrink: 0;
+}
+.bottom-data-spacer {
+    flex: 1;
+}
+
+.bottom-data-source {
+    font-family: var(--font-mono);
+    color: var(--beaver-700);
+    font-weight: 500;
+}
+
+.bottom-data-conn {
+    color: var(--fg-subtle);
+}
+
+.bottom-data-table-wrap {
+    overflow: auto;
+    max-height: 100%;
+}
+
+.bottom-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+}
+
+.bottom-data-table th {
+    position: sticky;
+    top: 0;
+    background: var(--bg-alt);
+    color: var(--fg-muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 10px;
+}
+
+.bottom-data-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bottom-data-table tr:hover td {
+    background: var(--bg-hover);
+}
+
+.bottom-data-table td.is-null {
+    color: var(--fg-subtle);
+    font-style: italic;
+}
+
+/* Paginação */
+.bottom-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+}
+
+.bottom-pagination-info {
+    color: var(--fg-muted);
+}
+
+.bottom-pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.bottom-page-btn {
+    min-width: 26px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+
+.bottom-page-btn:hover:not(:disabled) {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.bottom-page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.bottom-page-btn.is-active {
+    background: var(--beaver-700);
+    color: white;
+    border-color: var(--beaver-700);
+}
+
+.bottom-page-ellipsis {
+    padding: 0 4px;
+    color: var(--fg-subtle);
+}
+
+.bottom-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--fg-subtle);
+    font-size: var(--fs-sm);
+    font-style: italic;
+}
+
+.bottom-error {
+    padding: 12px;
+    color: var(--danger);
+    font-size: var(--fs-sm);
+}
+
+/* Paginação em baixo */
+.bottom-pagination-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    padding: 6px 12px;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+}
+
+.bottom-pagination-bottom .bottom-pagination-info {
+    color: var(--fg-muted);
+}
+
+/* ------------------------------------------------------------
+ * Bottom: tab SQL / Sandbox
+ * ------------------------------------------------------------ */
+
+.bottom-sql-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 6px 12px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--fs-xs);
+    flex-shrink: 0;
+}
+
+.bottom-sql-badge {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--beaver-700);
+}
+
+.bottom-sql-meta {
+    font-family: var(--font-mono);
+    color: var(--fg-subtle);
+    font-size: var(--fs-xs);
+}
+
+.bottom-sql-spacer {
+    flex: 1;
+}
+
+.bottom-sql-btn {
+    height: 22px;
+    padding: 0 8px;
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+    white-space: nowrap;
+}
+
+.bottom-sql-btn:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+}
+
+.bottom-sql-btn.is-primary {
+    background: var(--beaver-700);
+    color: white;
+    border-color: var(--beaver-700);
+}
+
+.bottom-sql-btn.is-primary:hover {
+    background: var(--beaver-600);
+}
+
+.bottom-sql-btn.is-danger {
+    color: var(--danger);
+}
+
+.bottom-sql-btn.is-danger:hover {
+    background: rgba(207, 34, 46, 0.08);
+    border-color: var(--danger);
+}
+
+.bottom-sql-editor {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+}
+
+.bottom-sql-textarea {
+    width: 100%;
+    min-height: 60px;
+    max-height: 150px;
+    padding: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    resize: vertical;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.bottom-sql-textarea:focus {
+    border-color: var(--beaver-700);
+    box-shadow: 0 0 0 2px rgba(122, 82, 48, 0.15);
+}
+
+.bottom-sql-actions {
+    display: flex;
+    gap: var(--sp-2);
+    padding: 6px 12px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.bottom-sql-info {
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
